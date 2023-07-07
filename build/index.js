@@ -1,23 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
-const matches = fs_1.default
-    .readFileSync('football.csv', { encoding: 'utf-8' })
-    .split('\n')
-    .map((row) => {
-    return row.split(',');
-});
+const CsvFileReader_1 = require("./CsvFileReader");
+const MathResult_1 = require("./MathResult");
+const reader = new CsvFileReader_1.CsvFileReader('football.csv');
+reader.read();
 // const arrMatches = matches.split('\n');
-console.log(matches[0]);
-var MatchResult;
-(function (MatchResult) {
-    MatchResult["HomeWin"] = "H";
-    MatchResult["AwayWin"] = "A";
-    MatchResult["Draw"] = "D";
-})(MatchResult || (MatchResult = {}));
+const match1Date = reader.data[0][0];
+console.log(match1Date);
 // const getMatchResult = (match: string[]): MatchResult => {
 //   if (match[5] === 'H') {
 //     return MatchResult.HomeWin;
@@ -27,12 +16,12 @@ var MatchResult;
 //   return MatchResult.Draw;
 // };
 let manUnitedWins = 0;
-for (let match of matches) {
-    if (match[1] === 'Man United' && match[5] === MatchResult.HomeWin) {
+for (let match of reader.data) {
+    if (match[1] === 'Man United' && match[5] === MathResult_1.MatchResult.HomeWin) {
         manUnitedWins++;
     }
-    else if (match[2] === 'Man United' && match[5] === MatchResult.AwayWin) {
+    else if (match[2] === 'Man United' && match[5] === MathResult_1.MatchResult.AwayWin) {
         manUnitedWins++;
     }
 }
-console.log(`Man United won ${manUnitedWins} times`);
+// console.log(`Man United won ${manUnitedWins} times`);

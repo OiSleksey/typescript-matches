@@ -2,21 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const MatchReader_1 = require("./MatchReader");
 const MathResult_1 = require("./MathResult");
-const reader = new MatchReader_1.MatchReader('football.csv');
-reader.read();
-// const arrMatches = matches.split('\n');
-const match1Date = reader.data[0][0];
-// console.log(match1Date);
-// const getMatchResult = (match: string[]): MatchResult => {
-//   if (match[5] === 'H') {
-//     return MatchResult.HomeWin;
-//   } else if (match[5] === 'A') {
-//     return MatchResult.AwayWin;
-//   }
-//   return MatchResult.Draw;
-// };
+const CsvFileReader_1 = require("./CsvFileReader");
+//Create an object that implements the DataReader interface
+const csvFileReader = new CsvFileReader_1.CsvFileReader('football.csv');
+//Create an object of MatchReader and pass DataReader implementation
+const matchReader = new MatchReader_1.MatchReader(csvFileReader);
+matchReader.load();
 let manUnitedWins = 0;
-for (let match of reader.data) {
+for (let match of matchReader.matches) {
     if (match[1] === 'Man United' && match[5] === MathResult_1.MatchResult.HomeWin) {
         manUnitedWins++;
     }
@@ -42,3 +35,8 @@ for (let match of reader.data) {
 // // countBits(16); //7
 // countBits(456); //6
 console.log(`Man United won ${manUnitedWins} times`);
+const target = { a: 1, b: 2 };
+const source = { b: 4, c: 5 };
+const result = Object.assign(target, source);
+console.log(target === result); // { a: 1, b: 4, c: 5 }
+console.log(result); // { a: 1, b: 4, c: 5 }

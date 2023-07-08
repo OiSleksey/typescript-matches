@@ -1,26 +1,18 @@
 import { MatchReader } from './MatchReader';
 import { MatchResult } from './MathResult';
+import { CsvFileReader } from './CsvFileReader';
 
-const reader = new MatchReader('football.csv');
+//Create an object that implements the DataReader interface
 
-reader.read();
-// const arrMatches = matches.split('\n');
+const csvFileReader = new CsvFileReader('football.csv');
 
-const match1Date = reader.data[0][0];
-// console.log(match1Date);
-
-// const getMatchResult = (match: string[]): MatchResult => {
-//   if (match[5] === 'H') {
-//     return MatchResult.HomeWin;
-//   } else if (match[5] === 'A') {
-//     return MatchResult.AwayWin;
-//   }
-//   return MatchResult.Draw;
-// };
+//Create an object of MatchReader and pass DataReader implementation
+const matchReader = new MatchReader(csvFileReader);
+matchReader.load();
 
 let manUnitedWins = 0;
 
-for (let match of reader.data) {
+for (let match of matchReader.matches) {
   if (match[1] === 'Man United' && match[5] === MatchResult.HomeWin) {
     manUnitedWins++;
   } else if (match[2] === 'Man United' && match[5] === MatchResult.AwayWin) {
@@ -49,3 +41,11 @@ for (let match of reader.data) {
 // // countBits(16); //7
 // countBits(456); //6
 console.log(`Man United won ${manUnitedWins} times`);
+
+const target = { a: 1, b: 2 };
+const source = { b: 4, c: 5 };
+
+const result = Object.assign(target, source);
+
+console.log(target === result); // { a: 1, b: 4, c: 5 }
+console.log(result); // { a: 1, b: 4, c: 5 }
